@@ -47,12 +47,15 @@ namespace TestProject
 		{
 			IWebDriver driver = new ChromeDriver();
 			driver.Navigate().GoToUrl("http://eaapp.somee.com/");
-			driver.FindElement(By.Id("loginLink")).Click();
-			driver.FindElement(By.Name("UserName")).SendKeys("admin");
+			//driver.FindElement(By.Id("loginLink")).Click();
+			SeleniumCustomMethod.click(driver, By.Id("loginLink"));
+			//driver.FindElement(By.Name("UserName")).SendKeys("admin");
+			SeleniumCustomMethod.EnterText(driver, By.Name("UserName"), "admin");
 			driver.FindElement(By.Name("Password")).SendKeys("password");
 
 			//IWebElement btnLogin = driver.FindElement(By.ClassName("btn"));
-			driver.FindElement(By.CssSelector(".btn")).Submit();
+			//driver.FindElement(By.CssSelector(".btn")).Submit();
+			SeleniumCustomMethod.Submit(driver, By.CssSelector(".btn"));
 
 		}
 
@@ -62,18 +65,22 @@ namespace TestProject
 			IWebDriver driver = new ChromeDriver();
 			driver.Navigate().GoToUrl("https://play1.automationcamp.ir/forms.html");
 
-			SelectElement selectElement = new SelectElement(driver.FindElement(By.Id("select_tool")));
-			selectElement.SelectByText("Protractor");
+			//SelectElement selectElement = new SelectElement(driver.FindElement(By.Id("select_tool")));
+			//selectElement.SelectByText("Protractor");
+			SeleniumCustomMethod.SelectdDropDownByText(driver, By.Id("select_tool"), "Cypress");
 
-			SelectElement multiSelect = new SelectElement(driver.FindElement(By.Id("select_lang")));
-			multiSelect.SelectByValue("java");
-			multiSelect.SelectByValue("python");
+			//SelectElement multiSelect = new SelectElement(driver.FindElement(By.Id("select_lang")));
+			//multiSelect.SelectByValue("java");
+			//multiSelect.SelectByValue("python");
+			SeleniumCustomMethod.multiSelect(driver, By.Id("select_lang"), ["Java", "Python"]);
 
-			IList<IWebElement> selectedOption = multiSelect.AllSelectedOptions;
-			foreach (IWebElement option in selectedOption)
-			{
-				Console.WriteLine(option.Text);
-			}
+			var getSelectedOption = SeleniumCustomMethod.ShowSelectedList(driver, By.Id("select_lang"));
+			//foreach (var option in getSelectedOption)
+			//{
+			//	Console.WriteLine(option);
+			//}
+			getSelectedOption.ForEach(Console.WriteLine);
+
 		}
 	}
 }
